@@ -30,7 +30,7 @@ func (mi User) hello() {
 	fmt.Println("My name is", mi.Name)
 }
 
-func main5() {
+func main() {
 	var u User
 	u.Score = 100
 	u = User{Id: 32, address: "中国", Name: "乔瑟夫"}

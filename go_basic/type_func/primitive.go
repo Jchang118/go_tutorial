@@ -5,7 +5,7 @@ import (
 	"math"
 )
 
-func main2() {
+func main() {
 	var MyName int		// 变量声明
 	fmt.Print(MyName)	// 使用变量
 	fmt.Println(MyName)	// 使用变量
