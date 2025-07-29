@@ -127,4 +127,106 @@ func expansion() {
 
 // go语言函数传参,传的都是值,即传切片会把切片的{arrayPointer, len, cap}这3个属性拷贝一份传进来.
 // 由于传的是底层数组的指针,所以可以直接修改底层数组里的元素
+func update_slice(s []int) {
+	s[0] = 888
+}
 
+// 获取切片的地址用&s; 获取切片底层数组的地址用&s[0],或直接把s当地址打印
+func slice_address() {
+	s := make([]int, 2, 3)
+	fmt.Printf("address of slice %p, address of array %p %p\n", &s, &s[0], s)
+	s = append(s, 4)
+	fmt.Printf("address of slice %p, address of array %p %p\n", &s, &s[0], s)
+	s = append(s, 4)
+	fmt.Printf("address of slice %p, address of array %p %p\n", &s, &s[0], s)
+}
+
+// 修改一个数字
+func modifyInt(a *int) {
+	(*a)++
+}
+
+// 修改首元素
+func modifyEle(s []int) {
+	s[0] = 9
+}
+
+// 向尾部添加一个元素
+func appendEle(s *[]int) {
+	*s = append(*s, 9)
+}
+
+// 删除尾部元素
+func removeEle(s *[]int) {
+	n := len(*s)
+	*s = (*s)[0 : n-1]
+}
+
+// 遍历slice,本质是在遍历底层的数组,而且这个数组在一开始就固定下来了,即使切片动态改变,for range遍历的目标数组也不变
+func iter_slice() {
+	s := make([]int, 4, 5)
+	for i, ele := range s {
+		fmt.Printf("i=%d ele=%d\n", i, ele)
+	}
+	fmt.Printf("len=%d, cap=%d\n", len(s), cap(s))
+	fmt.Println(strings.Repeat("-", 50))
+
+	//遍历的时候添加元素,for range遍历的范围不受影响
+	for i, ele := range s {
+		fmt.Printf("i=%d ele=%d\n", i, ele)
+		if i == 0 {
+			s = append(s, 1)
+			s[1] = 3
+		}
+	}
+	fmt.Printf("len=%d, cap=%d\n", len(s), cap(s))
+	fmt.Println(strings.Repeat("-", 50))
+
+	//遍历的时候减少元素,for range遍历的范围不受影响
+	for i, ele := range s {
+		fmt.Printf("i=%d ele=%d\n", i, ele)
+		if i == 0 {
+			s[1] = 4
+			s = s[3:]
+		}
+	}
+	fmt.Printf("len=%d, cap=%d\n", len(s), cap(s))
+	fmt.Println(strings.Repeat("-", 50))
+
+	//遍历的时候发生扩容,切片指向了新的数组,for range遍历的还是老数组
+	for i, ele := range s {
+		fmt.Printf("i=%d ele=%d\n", i, ele)
+		if i == 0 {
+			s = append(s, 1)
+			s[1] = 5
+		}
+	}
+	fmt.Printf("len=%d, cap=%d\n", len(s), cap(s))
+	fmt.Println(strings.Repeat("-", 50))
+}
+
+// 判断切片中是否存在目标元素
+func considers1(arr []int, target int) int {
+	for i, ele := range arr {
+		if ele == target {
+			return i
+		}
+	}
+	return -1
+}
+
+func contains2(arr []int, target int) int {
+	//避免ele的拷贝
+	// for i := range arr {
+	for i := 0; i < len(arr); i++ {
+		if arr[i] == target {
+			return i
+		}
+	}
+	return -1
+}
+
+func main() {
+	slice_init()
+	expansion()
+}
