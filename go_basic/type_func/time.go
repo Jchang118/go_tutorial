@@ -34,7 +34,7 @@ func basicTime() {
 
 // 时间格式化
 func parse_format() {
-	loc, _ := time.LoadLocation("Asia/Shanghai")
+	loc, _ := time.LoadLocation("Australia/Sydney")
 
 	now := time.Now()
 	ts := now.Format(TIME_FMT)
