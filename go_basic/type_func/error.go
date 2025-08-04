@@ -55,7 +55,7 @@ func divide(a, b int) (int, error) {
 	}
 }
 
-func main() {
+func main20() {
 	fmt.Println(NewMyError("math", 101, "divide by zero"))
 
 	c, err := divide(5, 0)
