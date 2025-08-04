@@ -2,7 +2,7 @@ package main
 
 import "net/http"
 
-func main() {
+func main24() {
 	var f1, f2 func(a, b int, c string, d bool) (int, bool)
 
 	f1 = func(a, b int, c string, d bool) (int, bool) {
@@ -14,24 +14,24 @@ func main() {
 	_, _ = i, p
 
 	type ConnectionPool struct {
-		Servers			[]string
-		LoadBalancer	func(a, b int, c string, d bool) (int, bool) //成员变量是接口类型
+		Servers      []string
+		LoadBalancer func(a, b int, c string, d bool) (int, bool) //成员变量是接口类型
 	}
 
 	cp := ConnectionPool{
-		Servers:		[]string{"127.0.0.1:1234", "127.0.0.1:5678"},
-		LoadBalancer:	f2,
+		Servers:      []string{"127.0.0.1:1234", "127.0.0.1:5678"},
+		LoadBalancer: f2,
 	}
 	_ = cp
 	// cp.LoadBalancer(1, 2, "3", false) // nil pointer dereference
 
 	type ConnectionPool2 struct {
-		Servers			[]string
-		LoadBalancer 	FT //成员变量是接口类型
+		Servers      []string
+		LoadBalancer FT //成员变量是接口类型
 	}
 	cp2 := ConnectionPool2{
-		Servers:		[]string{"127.0.0.1:1234", "127.0.0.1:5678"},
-		LoadBalancer	FT(f2),
+		Servers:      []string{"127.0.0.1:1234", "127.0.0.1:5678"},
+		LoadBalancer: FT(f2),
 	}
 	_ = cp2
 
