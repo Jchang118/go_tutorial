@@ -4,7 +4,7 @@ import "fmt"
 
 const PI = 3.14
 
-func main() {
+func main6() {
 	fmt.Println(PI)
 	type User struct {
 		Name string

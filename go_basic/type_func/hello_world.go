@@ -10,6 +10,6 @@ func HelloWorld() { //驼峰
     hello_world()
 }
 
-func main() {
+func main1() {
     fmt.Println("hello world")
 }

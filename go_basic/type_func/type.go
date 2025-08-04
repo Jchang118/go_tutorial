@@ -16,7 +16,7 @@ func (Age) whistle(n int) int {
 	return 0
 }
 
-func main() {
+func main21() {
 	var a int
 	var b Age
 	var c Tall

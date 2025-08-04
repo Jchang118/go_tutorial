@@ -85,7 +85,7 @@ func update_map() {
 	}
 }
 
-func main() {
+func main14() {
 	key_type()
 	update_map()
 }

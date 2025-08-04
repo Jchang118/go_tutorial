@@ -90,7 +90,7 @@ func for_range_array() {
 	}
 }
 
-func main() {
+func main11() {
 	arr := [5]int{1, 2, 3, 4, 5}
 	update_array1(arr)
 	fmt.Println(arr[0])

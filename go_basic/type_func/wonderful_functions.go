@@ -5,7 +5,7 @@ import (
 	"slices"
 )
 
-func main() {
+func main31() {
 	arr := []int{3, 7, 4, 6, 8, 1}
 	slices.Sort(arr)
 	fmt.Println(arr)

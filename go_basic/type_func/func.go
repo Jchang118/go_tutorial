@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func main() {
+func main10() {
 	c, d := 3, 5
 	arg1(c, d)
 	fmt.Println(c, d)

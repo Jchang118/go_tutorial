@@ -150,7 +150,7 @@ func switch_type() {
 	}
 }
 
-func main() {
+func main8() {
 	switch_basic()
 	switch_expression()
 	swtich_condition()

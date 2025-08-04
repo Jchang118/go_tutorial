@@ -226,7 +226,7 @@ func contains2(arr []int, target int) int {
 	return -1
 }
 
-func main() {
+func main12() {
 	slice_init()
 	expansion()
 }

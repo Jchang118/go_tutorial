@@ -96,7 +96,7 @@ L1:
 	}
 }
 
-func main() {
+func main7() {
 	//basic_goto()
 	//if_goto()
 	//for_goto()

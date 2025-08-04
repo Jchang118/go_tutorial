@@ -71,7 +71,7 @@ func changeChan(ch chan bool) {
 	}
 }
 
-func main() {
+func main18() {
 	rangeChannel()
 	fmt.Println(strings.Repeat("*", 50)) //星号重复50次
 

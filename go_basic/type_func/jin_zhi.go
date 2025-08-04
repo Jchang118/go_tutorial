@@ -15,7 +15,7 @@ import "fmt"
 //		a = b
 // }
 
-func main() {
+func main3() {
 	fmt.Printf("A=%d, Z=%d\n", 'A', 'Z')
 	var base int = 'Z' - 'A' + 1 // 进制
 	fmt.Println(base, "进制")	// 26

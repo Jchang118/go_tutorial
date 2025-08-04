@@ -129,7 +129,7 @@ func string_other_convert() {
 	fmt.Printf("err %v\n", err)
 }
 
-func main() {
+func main13() {
 	assign_string()
 	string_impl()
 	string_join()

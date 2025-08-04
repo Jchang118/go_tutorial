@@ -8,7 +8,7 @@ func ellop() {
 	fmt.Println(PI)	//使用的是全局常量PI
 }
 
-func main() {
+func main4() {
 	var L int = 100
 	_ = L
 	// {}限定了变量的作用域
