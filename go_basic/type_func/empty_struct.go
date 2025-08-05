@@ -41,7 +41,7 @@ func scenariosOfEmptyStruct() {
 	<-blocker //等待子协程结束
 }
 
-func main() {
+func main26() {
 	allEmptyStructIsSame()
 	scenariosOfEmptyStruct()
 }
