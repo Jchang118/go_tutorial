@@ -6,6 +6,7 @@ import (
 )
 
 func TestCopySlice(t *testing.T) {
+
 	var src, dest []int16
 	src = []int16{1, 2, 3, 4}
 	var c, n int
@@ -49,4 +50,23 @@ func TestCopySlice(t *testing.T) {
 	}
 }
 
+func BenchmarkCopySlice(b *testing.B) {
+	src := make([]int8, 10000)
+	dest := make([]int8, 10000)
+	b.ResetTimer() //开始计时
+	for i := 0; i < b.N; i++ {
+		projectprepare.CopySlice(dest, src)
+	}
+}
+
+func BenchmarkStdCopySlice(b *testing.B) {
+	src := make([]int8, 10000)
+	dest := make([]int8, 10000)
+	b.ResetTimer() //开始计时
+	for i := 0; i < b.N; i++ {
+		copy(dest, src)
+	}
+}
+
 // go test -v ./test -run=TestCopySlice$ -count=1
+// got test ./test -run=^$ -bench=CopySlice$ -count=1
