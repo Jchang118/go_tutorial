@@ -68,5 +68,11 @@ func BenchmarkStdCopySlice(b *testing.B) {
 	}
 }
 
-// go test -v . -run=TestCopySlice$ -count=1
-// got test ./test -run=^$ -bench=CopySlice$ -count=1
+// go test -v ./project_prepare -run=TestCopySlice$ -count=1
+// got test ./project_prepare -run=^$ -bench=CopySlice$ -count=1
+// go test -cover $dir 只能给出$dir目录的整体单测覆盖率
+// go test ./project_prepare -coverprofile=data/test_cover
+// go test ./project_prepare -coverprofile=data/test_cover -covermode=count
+// covermode可以取3个值: set 每个语句是否执行- 默认值, count 每个语句执行了几次,鼠标悬停在语句上显示执行的次数, atomic 类似于count,但表示的是并行程序中的精确计数 
+// go tool cover -func=data/test_cover 输出每一个函数的覆盖率
+// go tool cover -html=data/test_cover 细化到每一行代码的覆盖情况
