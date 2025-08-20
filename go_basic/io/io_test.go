@@ -31,3 +31,11 @@ func TestBufferedFileWriter(t *testing.T) {
 	t3 := time.Now()
 	fmt.Printf("不用缓冲耗时%dms,用缓冲耗时%dms\n", t2.Sub(t1).Milliseconds(), t3.Sub(t2).Milliseconds())
 }
+
+func TestCreateFile(t *testing.T) {
+	io.CreateFile("../data/poem.txt")
+}
+
+func TestWalkDir(t *testing.T) {
+	io.WalkDir("../data")
+}
