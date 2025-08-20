@@ -53,3 +53,7 @@ func TestCompress(t *testing.T) {
 	io.Compress("../img/大乔乔好课.png", "../img/大乔乔好课.png.gzip", io.GZIP)
 	io.Decompress("../img/大乔乔好课.png.gzip", "../data/大乔乔好课.png", io.GZIP)
 }
+
+func TestJson(t *testing.T) {
+	io.JsonSerialize()
+}
