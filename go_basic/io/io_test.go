@@ -48,3 +48,8 @@ func TestSplitFile(t *testing.T) {
 func TestMergeFile(t *testing.T) {
 	io.MergeFile("../img/图像分割", "../img/图像合并.png")
 }
+
+func TestCompress(t *testing.T) {
+	io.Compress("../img/大乔乔好课.png", "../img/大乔乔好课.png.gzip", io.GZIP)
+	io.Decompress("../img/大乔乔好课.png.gzip", "../data/大乔乔好课.png", io.GZIP)
+}
