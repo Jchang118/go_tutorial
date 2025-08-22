@@ -67,3 +67,7 @@ func TestSLog(t *testing.T) {
 	logger := io.NewSLogger("../data/sbiz.log")
 	io.Slog(logger)
 }
+
+func TestSysCall(t *testing.T) {
+	io.SysCall()
+}
