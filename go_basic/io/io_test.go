@@ -57,3 +57,13 @@ func TestCompress(t *testing.T) {
 func TestJson(t *testing.T) {
 	io.JsonSerialize()
 }
+
+func TestLog(t *testing.T) {
+	logger := io.NewLogger("../data/biz.log")
+	io.Log(logger)
+}
+
+func TestSLog(t *testing.T) {
+	logger := io.NewSLogger("../data/sbiz.log")
+	io.Slog(logger)
+}
