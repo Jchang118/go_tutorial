@@ -71,3 +71,7 @@ func TestSLog(t *testing.T) {
 func TestSysCall(t *testing.T) {
 	io.SysCall()
 }
+
+func TestRegex(t *testing.T) {
+	io.UseRegex()
+}
