@@ -12,4 +12,5 @@ func main() {
 	// concurrence.ReentranceWLock(3)
 	// concurrence.RLockExclusion()
 	// concurrence.WLockExclusion()
+	// concurrence.CollectionSafety()
 }
