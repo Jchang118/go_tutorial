@@ -17,4 +17,5 @@ func main() {
 	// concurrence.CloseChannel()
 	// concurrence.ChannelBlock()
 	// concurrence.TraverseChannel()
+	// concurrence.Block()
 }
