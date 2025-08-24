@@ -14,4 +14,7 @@ func main() {
 	// concurrence.WLockExclusion()
 	// concurrence.CollectionSafety()
 	// concurrence.ServiceMain()
+	// concurrence.CloseChannel()
+	// concurrence.ChannelBlock()
+	// concurrence.TraverseChannel()
 }
