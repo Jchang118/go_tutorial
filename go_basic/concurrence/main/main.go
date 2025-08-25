@@ -18,4 +18,6 @@ func main() {
 	// concurrence.ChannelBlock()
 	// concurrence.TraverseChannel()
 	// concurrence.Block()
+	concurrence.Broadcast()
+	concurrence.CountDownLatch()
 }
