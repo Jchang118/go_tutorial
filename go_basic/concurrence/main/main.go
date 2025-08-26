@@ -25,5 +25,6 @@ func main() {
 	// concurrence.CondBroadcast()
 	// concurrence.ChannelBroadcast()
 	// concurrence.DealMassFile("../../data/biz_log")
-	concurrence.QpsLimit()
+	// concurrence.QpsLimit()
+	concurrence.RoutineLimit()
 }
