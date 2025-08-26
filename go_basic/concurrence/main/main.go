@@ -23,5 +23,6 @@ func main() {
 	// concurrence.CondSignal()
 	// concurrence.ChannelSignal()
 	// concurrence.CondBroadcast()
-	concurrence.ChannelBroadcast()
+	// concurrence.ChannelBroadcast()
+	concurrence.DealMassFile("../../data/biz_log")
 }
