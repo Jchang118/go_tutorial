@@ -20,3 +20,7 @@ func TestTcpLongConnection(t *testing.T) {
 func TestUdpLongConnection(t *testing.T) {
     server.UdpLongConnection()
 }
+
+func TestTcpStick(t *testing.T) {
+    server.TcpStick()
+}
