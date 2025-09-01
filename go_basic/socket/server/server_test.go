@@ -28,3 +28,7 @@ func TestTcpStick(t *testing.T) {
 func TestUdpConnectionCurrent(t *testing.T) {
     server.UdpConnectionCurrent()
 }
+
+func TestUdpRpcServer(t *testing.T) {
+    server.UdpRpcServer()
+}
