@@ -5,6 +5,7 @@ import (
     "log"
     "net"
     "time"
+    "sync"
 )
 
 func connect2UdpServer(serverAddr string) net.Conn {
@@ -40,4 +41,19 @@ func UdpLongConnection() {
     sendUdpServer(conn)
     conn.Close()
     log.Println("close connection")
+}
+
+// Client端,并发使用udp连接
+func UdpConnectionCurrent() {
+    conn := connect2UdpServer("127.0.0.1:5678")
+    
+    wg := sync.WaitGroup{}
+    wg.Add(3)
+    for i := 0; i < 3; i++ {
+        go func() {
+            defer wg.Done()
+            sendUdpServer(conn)
+        }()
+    }
+    wg.Wait()
 }

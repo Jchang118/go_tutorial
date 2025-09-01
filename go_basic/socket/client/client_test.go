@@ -24,3 +24,7 @@ func TestUdpLongConnection(t *testing.T) {
 func TestTcpStick(t *testing.T) {
     client.TcpStick()
 }
+
+func TestUdpConnectionCurrent(t *testing.T) {
+    client.UdpConnectionCurrent()
+}

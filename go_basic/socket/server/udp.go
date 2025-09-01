@@ -5,6 +5,7 @@ import (
     "log"
     "net"
     "time"
+    "sync"
 )
 
 func UdpServer() {
@@ -38,4 +39,30 @@ func UdpLongConnection() {
         transport.CheckError(err)
         log.Printf("receive request %s from %s\n", string(request[:n]), remoteAddr.String())
     }
+}
+
+// Server端,并发使用udp连接
+func UdpConnectionCurrent() {
+    udpAddr, err := net.ResolveUDPAddr("udp", "127.0.0.1:5678")
+    transport.CheckError(err)
+    conn, err := net.ListenUDP("udp", udpAddr)
+    transport.CheckError(err)
+    log.Println("return conn")
+    defer conn.Close()
+
+    wg := sync.WaitGroup{}
+    wg.Add(3)
+    for i := 0; i < 3; i++ {
+        go func() {
+            defer wg.Done()
+            request := make([]byte, 256)
+            for { //长连接
+                conn.SetReadDeadline(time.Now().Add(2 * time.Minute)) //每次都要续命
+                n, remoteAddr, err := conn.ReadFromUDP(request) //对方close后,这里不会有error.但是2分钟后如果没有数据到来,还是会发生timeout error
+                transport.CheckError(err)
+                log.Printf("%d receive request %s from %s\n", i, string(request[:n]), remoteAddr.String())
+            }
+        }()
+    }
+    wg.Wait()
 }
