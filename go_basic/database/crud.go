@@ -5,7 +5,7 @@ import (
     "database/sql"
     "fmt"
     // rand "math/rand/v2"
-    // "time"
+    "time"
 
     _ "github.com/go-sql-driver/mysql" //init()
     // gsb "github.com/huandu/go-sqlbuilder"
@@ -27,7 +27,7 @@ func Insert(db *sql.DB) {
 // replace 插入(覆盖)数据
 func Replace(db *sql.DB) {
     //由于name字段上有唯一索引,insert重复的name会报错.而使用replace会先删除,再插入
-    res, err := db.Exec("replace into student (name,province,city,enrollment) values ('小明', '深圳', '深圳', '2025-07-03'), ('小红', '上海', '上海', '2005-07-03')")
+    res, err := db.Exec("replace into student (name,province,city,enrollment) values ('小明', '深圳', '深圳', '2025-07-03'), ('小红', '上海', '上海', '2025-07-03')")
     CheckError(err)
     lastId, err := res.LastInsertId() //ID自增,用过的id(即使对应的行已delete)不会重复使用
     CheckError(err)
