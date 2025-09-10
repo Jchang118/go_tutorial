@@ -47,3 +47,8 @@ func TestDelete(t *testing.T) {
 func TestTransaction(t *testing.T) {
     database.Transaction(db)
 }
+
+func TestQuery(t *testing.T) {
+    database.Query(db)
+}
+

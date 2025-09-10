@@ -82,3 +82,68 @@ type User struct {
     Gender  string
     Score   float64
 }
+
+func QueryByPage(db *sql.DB, pageSize, page int) (total int, data []*User) {
+    // 先获得总数
+    rows, err := db.Query("select count(*) from student")
+    CheckError(err)
+    defer rows.Close()
+    rows.Next() //一定要先执行Next()
+    rows.Scan(&total)
+
+    // 再通过select limit 获得相应分页里的数据
+    offset := pageSize * (page - 1)
+    rows2, err := db.Query(fmt.Sprintf("select id,score from student limit %d,%d", offset, pageSize))
+    CheckError(err)
+    defer rows2.Close()
+    for rows2.Next() {
+        var id int
+        var score float64
+        rows2.Scan(&id, &score)
+        data = append(data, &User{Id: id, Score: score})
+    }
+    return
+}
+
+// query 查询数据
+func Query(db *sql.DB) map[int]*User {
+    rows, err := db.Query("select id,name,city,score,enrollment from student where enrollment>=20250130 limit 5") //查询入学日期大于2025年1月30日的学生
+    CheckError(err)
+    defer rows.Close()
+    rect := make(map[int]*User, 10)
+    for rows.Next() { //没有数据或者发生error时返回false
+        var id int
+        var score float32
+        var name, city string
+        var enrollment time.Time
+        err = rows.Scan(&id, &name, &city, &score, &enrollment) //通过scan把db里的数据赋给go变量
+        CheckError(err)
+        fmt.Printf("id=%d, score=%.2f, name=%s, city=%s, enrollment=%s \n", id, score, name, city, enrollment.Format("2006-01-02"))
+        rect[id] = &User{
+            Id:     id,
+            Score:  float64(score),
+        }
+    }
+    return rect
+}
+
+func QueryUser(db *sql.DB, mp map[int]*User) {
+    rows, err := db.Query("select id,gender from user") //查询id和gender列
+    CheckError(err)
+    defer rows.Close()
+    for rows.Next() { //没有数据或发生error时返回false
+        var id int
+        var gender string
+        err = rows.Scan(&id, &gender) //通过scan把db里的数据赋给go变量
+        CheckError(err)
+        user, ok := mp[id]
+        if ok {
+            user.Gender = gender
+        } else {
+            mp[id] = &User{
+                Id:     id,
+                Gender: gender,
+            }
+        }
+    }
+}
