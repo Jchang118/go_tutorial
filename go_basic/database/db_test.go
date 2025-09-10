@@ -66,3 +66,7 @@ func TestSqlBuilder(t *testing.T) {
     database.SqlRead()
     database.SqlUpdate()
 }
+
+func TestMassInsert(t *testing.T) {
+    database.MassInsertStmt(db)
+}

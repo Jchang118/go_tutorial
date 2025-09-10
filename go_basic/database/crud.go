@@ -4,11 +4,11 @@ import (
     "context"
     "database/sql"
     "fmt"
-    // rand "math/rand/v2"
+    rand "math/rand/v2"
     "time"
 
     _ "github.com/go-sql-driver/mysql" //init()
-    // gsb "github.com/huandu/go-sqlbuilder"
+    gsb "github.com/huandu/go-sqlbuilder"
 )
 
 // insert 插入数据
@@ -146,4 +146,29 @@ func QueryUser(db *sql.DB, mp map[int]*User) {
             }
         }
     }
+}
+
+// 插入大量记录
+func MassInsertStmt(db *sql.DB) {
+    insertBuilder := gsb.NewInsertBuilder()
+    insertBuilder = insertBuilder.InsertInto("student").Cols("name", "province", "city", "enrollment", "score").Values(RandStringRunes(10), "河南", "郑州", time.Now().Add(time.Hour*24*time.Duration(1)).Format("2006-01-02"), rand.IntN(100))
+    sql, args := insertBuilder.Build()
+    stmt, err := db.Prepare(sql)
+    CheckError(err)
+    stmt.Exec(args...)
+    for i := 0; i < 1000; i++ {
+        stmt.Exec(RandStringRunes(10), "河南", "郑州", time.Now().Add(time.Hour*24*time.Duration(i)).Format("2006-01-02"), rand.IntN(100)) //重复利用stmt
+    }
+    stmt.Close()
+
+    sb := gsb.NewInsertBuilder()
+    sb = sb.InsertInto("student").Cols("name", "province", "city", "enrollment", "score")
+    for i := 0; i < 1000; i++ {
+        sb = sb.Values(RandStringRunes(10), "河南", "郑州", time.Now().Add(time.Hour*24*time.Duration(i)).Format("2006-01-02"), rand.IntN(100))
+    }
+    sql, args = sb.Build()
+    stmt2, err := db.Prepare(sql)
+    CheckError(err)
+    stmt2.Exec(args...)
+    stmt2.Close()
 }
