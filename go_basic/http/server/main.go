@@ -8,9 +8,9 @@ import (
     "io"
     "net/http"
     "os"
-    //"strconv"
+    "strconv"
     "strings"
-    //"time"
+    "time"
 )
 
 // 详细看一下http协议
@@ -45,10 +45,33 @@ func Get(w http.ResponseWriter, r *http.Request) {
     fmt.Println(strings.Repeat("*", 60))
 }
 
+// 流式传输海量数据
+func HugeBody(w http.ResponseWriter, r *http.Request) {
+    line := []byte("Heavy is the head who wears the crown.\n")
+    const R = 10                                                // line重复发送几次
+    w.Header().Add("Content-Length", strconv.Itoa(R*len(line))) //先设置Content-Length
+    flusher, ok := w.(http.Flusher)
+    if !ok {
+        http.Error(w, "Streaming unsupported!", http.StatusInternalServerError)
+        return
+    }
+    for i := 0; i < R; i++ {
+        if _, err := w.Write(line); err != nil { //即使不显示Flush(),Write()的内容足够多(大几K)时也会触发Flush()
+            fmt.Printf("%d send error: %s\n", i, err)
+            break
+        }
+        flusher.Flush() //强制write to tcp
+        time.Sleep(1000 * time.Millisecond)
+    }
+    fmt.Println(strings.Repeat("*", 60))
+}
+
+
 func router1() {
     // 路由
     http.HandleFunc("/obs", HttpObservation)
     http.HandleFunc("/get", Get)
+    http.HandleFunc("/stream", HugeBody)
 
     // 启动Http Server
     if err := http.ListenAndServe("127.0.0.1:5678", nil); err != nil {

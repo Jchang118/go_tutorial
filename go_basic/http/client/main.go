@@ -1,7 +1,7 @@
 package main
 
 import (
-    //"bufio"
+    "bufio"
     //"bytes"
     //"encoding/json"
     "fmt"
@@ -9,7 +9,7 @@ import (
     "net/http"
     //"net/url"
     "os"
-    //"strconv"
+    "strconv"
     "strings"
     //"time"
 
@@ -60,9 +60,48 @@ func Get() {
     }
 }
 
+// 流式传输海量数据
+func HugeBody() {
+    fmt.Println(strings.Repeat("*", 30) + "GET HUGE BODY" + strings.Repeat("*", 30))
+    if resp, err := http.Get("http://127.0.0.1:5678/stream"); err != nil {
+        panic(err) 
+    } else {
+        headerKey := http.CanonicalHeaderKey("content-length") //正规化之后是Content-Length
+        if ls, exists := resp.Header[headerKey]; exists {
+            if l, err := strconv.Atoi(ls[0]); err == nil {
+                fmt.Printf("Content-Length=%d\n", l)
+                total := 0
+                reader := bufio.NewReader(resp.Body)
+                for total < l {
+                    if bs, err := reader.ReadBytes('\n'); err == nil {
+                        total += len(bs)
+                        fmt.Printf("进度 %.2f%%, 内容 %s", 100*float64(total)/float64(l), string(bs)) //bs末尾包含了\n
+                    } else {
+                        if err == io.EOF {
+                            if len(bs) > 0 { // 即使读到末尾了,本次read也可能读出了内容
+                                total += len(bs)
+                                fmt.Printf("进度 %.2f%%, 内容 %s", 100*float64(total)/float64(l), string(bs))
+                            }
+                        } else {
+                            fmt.Printf("read response body error: %s\n", err)
+                        }
+                        break
+                    }
+                    if total >= l/2 {
+                        resp.Body.Close()
+                        break
+                    }
+                }
+            }
+        }
+        resp.Body.Close()
+    }
+}
+
 func main() {
     HttpObservation()
     Get()
+    HugeBody()
 }
 
 // go run ./http/client
