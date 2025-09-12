@@ -2,7 +2,7 @@ package main
 
 import (
     myhttp "go_tutorial/go_basic/http"
-    //"encoding/json"
+    "encoding/json"
     "fmt"
     "html/template"
     "io"
@@ -84,6 +84,35 @@ func Student(w http.ResponseWriter, r *http.Request) {
     tmpl.Execute(w, students)
 }
 
+func Post(w http.ResponseWriter, r *http.Request) {
+    defer r.Body.Close()
+    if ct, exists := r.Header["Content-Type"]; exists {
+        switch ct[0] {
+        case "text/plain":
+            io.Copy(w, r.Body) //直接把请求体作为响应体
+        case "application/json":
+            body, err := io.ReadAll(r.Body)
+            if err == nil {
+                params := make(map[string]string, 10)
+                if err := json.Unmarshal(body, &params); err == nil {
+                    fmt.Fprintf(w, "your name is %s, age is %s\n", params["name"], params["age"])
+                }
+            } else {
+                fmt.Println("read request body error", err)
+            }
+        case "application/x-www-form-urlencoded":
+            body, err := io.ReadAll(r.Body)
+            if err == nil {
+                fmt.Println("Request body", string(body))
+                params := myhttp.ParseUrlParams(string(body))
+                fmt.Fprintf(w, "your name is %s, age is %s\n", params["name"], params["age"])
+            } else {
+                fmt.Println("read request body error", err)
+            }
+        }
+    }
+    fmt.Println(strings.Repeat("*", 60))
+}
 
 func router1() {
     // 路由
@@ -91,6 +120,7 @@ func router1() {
     http.HandleFunc("/get", Get)
     http.HandleFunc("/stream", HugeBody)
     http.HandleFunc("/student", Student)
+    http.HandleFunc("/post", Post)
 
     // 启动Http Server
     if err := http.ListenAndServe("127.0.0.1:5678", nil); err != nil {

@@ -2,12 +2,12 @@ package main
 
 import (
     "bufio"
-    //"bytes"
-    //"encoding/json"
+    "bytes"
+    "encoding/json"
     "fmt"
     "io"
     "net/http"
-    //"net/url"
+    "net/url"
     "os"
     "strconv"
     "strings"
@@ -146,12 +146,50 @@ func Head() {
     }
 }
 
+func Post() {
+    fmt.Println(strings.Repeat("*", 30) + "POST" + strings.Repeat("*", 30))
+    //Content-Type为 text/plain,表示一个朴素的字符串
+    if resp, err := http.Post("http://127.0.0.1:5678/post", "text/plain", strings.NewReader("Hello Server")); err != nil {
+        panic(err)
+    } else {
+        defer resp.Body.Close()
+        fmt.Printf("response status: %s\n", resp.Status)
+        fmt.Println("response body:")
+        io.Copy(os.Stdout, resp.Body)
+        os.Stdout.WriteString("\n\n")
+    }
+
+    //Content-Type为application/json,表示一个json字符串
+    bs, _ := json.Marshal(map[string]string{"name": "良诚 Chang", "age": "18"})
+    if resp, err := http.Post("http://127.0.0.1:5678/post", "application/json", bytes.NewReader(bs)); err != nil {
+        panic(err)
+    } else {
+        defer resp.Body.Close()
+        fmt.Printf("response status: %s\n", resp.Status)
+        fmt.Println("response body:")
+        io.Copy(os.Stdout, resp.Body)
+        os.Stdout.WriteString("\n\n")
+    }
+
+    // PostForm()会自动把请求头的Content-Type设为application/x-www-form-urlencoded,并把url.Values转为URL-encoded参数格式放到请求体里
+    if resp, err := http.PostForm("http://127.0.0.1:5678/post", url.Values{"name": []string{"良诚 Chang"}, "age": []string{"18"}}); err != nil {
+        panic(err)
+    } else {
+        defer resp.Body.Close()
+        fmt.Printf("response status: %s\n", resp.Status)
+        fmt.Println("response body:")
+        io.Copy(os.Stdout, resp.Body)
+        os.Stdout.WriteString("\n\n")
+    }
+}
+
 func main() {
     HttpObservation()
     Get()
     HugeBody()
     Student()
     Head()
+    Post()
 }
 
 // go run ./http/client
