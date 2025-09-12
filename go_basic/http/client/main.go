@@ -11,7 +11,7 @@ import (
     "os"
     "strconv"
     "strings"
-    //"time"
+    "time"
 
     myhttp "go_tutorial/go_basic/http"
 )
@@ -183,6 +183,56 @@ func Post() {
     }
 }
 
+func Cookie() {
+    fmt.Println(strings.Repeat("*", 30) + "COOKIE" + strings.Repeat("*", 30))
+    request, err := http.NewRequest(http.MethodGet, "http://127.0.0.1:5678/cookie", nil)
+    if err != nil {
+        panic(err)
+    }
+    request.Header.Add("User-Agent", "Mozilla/5.0 (x64)") //伪造User-Agent,爬虫经常这么干
+    request.Header.Add("user-role", "vip")                //header的key和value可以随意设置
+    // 可添加多个Cookie
+    request.AddCookie(
+        &http.Cookie{
+            Name:   "auth",
+            Value:  "pass",
+            Domain: "localhost",
+            Path:   "/",
+        },
+    )
+    //所有的cookie都会放到一个http request header中. Cookie: [auth=pass; money=100dollar]
+    request.AddCookie(&http.Cookie{
+        Name:   "money",
+        Value:  "100",
+    })
+    request.AddCookie(&http.Cookie{
+        Name:   "money", //cookie的Name允许有重复,不会覆盖
+        Value:  "800",
+    })
+    //设置请求超时
+    client := &http.Client{
+        Timeout: 500 * time.Millisecond,
+    }
+    //发起请求
+    if resp, err := client.Do(request); err != nil {
+        fmt.Println(err)
+    } else {
+        defer resp.Body.Close()
+        fmt.Println("response header:")
+        //其实可以直接通过resp.Cookie()获得*http.Cookie,没必要自己解析
+        if values, exists := resp.Header["Set-Cookie"]; exists {
+            fmt.Println(values[0])
+            cookie, _ := http.ParseSetCookie(values[0])
+            fmt.Println("Name:", cookie.Name)
+            fmt.Println("Value:", cookie.Value)
+            fmt.Println("Domain:", cookie.Domain)
+            fmt.Println("MaxAge:", cookie.MaxAge)
+            fmt.Println(strings.Repeat("-", 50))
+        }
+        os.Stdout.WriteString("\n\n")
+    }
+}
+
 func main() {
     HttpObservation()
     Get()
@@ -190,6 +240,7 @@ func main() {
     Student()
     Head()
     Post()
+    Cookie()
 }
 
 // go run ./http/client
