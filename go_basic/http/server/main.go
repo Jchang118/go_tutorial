@@ -151,8 +151,63 @@ func router1() {
     }
 }
 
+func router2() {
+    if err := http.ListenAndServe("127.0.0.1:5678", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+        if r.Method == http.MethodGet && r.URL.Path == "/obs" {
+            HttpObservation(w, r)
+        } else if r.Method == http.MethodGet && r.URL.Path == "/get" {
+            Get(w, r)
+        } else if r.Method == http.MethodPost && r.URL.Path == "/post" {
+            Post(w, r)
+        } else if r.Method == http.MethodGet && r.URL.Path == "/stream" {
+            HugeBody(w, r)
+        } else if r.Method == http.MethodGet && r.URL.Path == "/cookie" {
+            Cookie(w, r)
+        } else if r.Method == http.MethodGet && r.URL.Path == "/student" {
+            Student(w, r)
+        } 
+    })); err != nil {
+        panic(err)
+    }
+}
+
+
+func router3() {
+    // go1.22以后标准库也支持灵活的路由设置了
+    mux := http.NewServeMux()
+    mux.HandleFunc("GET /obs", func(w http.ResponseWriter, r *http.Request) {
+        HttpObservation(w, r)
+    })
+    mux.HandleFunc("GET /get", func(w http.ResponseWriter, r *http.Request) {
+        Get(w, r)
+    })
+    mux.HandleFunc("POST /post", func(w http.ResponseWriter, r *http.Request) {
+        Post(w, r)
+    })
+    mux.HandleFunc("GET /stream", func(w http.ResponseWriter, r *http.Request) {
+        HugeBody(w, r)
+    })
+    mux.HandleFunc("GET /cookie", func(w http.ResponseWriter, r *http.Request) {
+        Cookie(w, r)
+    })
+    // restful风格参数
+    mux.HandleFunc("GET /get/{name}/{age}", func(w http.ResponseWriter, r *http.Request) {
+        fmt.Fprintf(w, "your name is %s, age is %s\n", r.PathValue("name"), r.PathValue("age"))
+    })
+
+    mux.HandleFunc("GET /student", func(w http.ResponseWriter, r *http.Request) {
+        Student(w, r)
+    })
+
+    if err := http.ListenAndServe("127.0.0.1:5678", mux); err != nil {
+        panic(err)
+    }
+}
+
 func main() {
-    router1()
+    //router1()
+    //router2()
+    router3()
 }
 
 // go run ./http/server

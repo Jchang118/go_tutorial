@@ -233,6 +233,23 @@ func Cookie() {
     }
 }
 
+func Restful() {
+    fmt.Println(strings.Repeat("*", 30) + "GET RESTful" + strings.Repeat("*", 30))
+    if resp, err := http.Get("http://127.0.0.1:5678/get/joseph/18"); err != nil {
+        panic(err)
+    } else {
+        defer resp.Body.Close()
+        fmt.Printf("response status: %s\n", resp.Status)
+        fmt.Println("response body:")
+        // io.Copy(os.Stdout, resp.Body) //两个io数据流的拷贝
+        if body, err := io.ReadAll(resp.Body); err == nil {
+            fmt.Print(string(body))
+        }
+        os.Stdout.WriteString("\n\n")
+    }
+}
+
+
 func main() {
     HttpObservation()
     Get()
@@ -241,6 +258,7 @@ func main() {
     Head()
     Post()
     Cookie()
+    Restful()
 }
 
 // go run ./http/client
