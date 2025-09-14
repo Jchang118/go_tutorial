@@ -7,6 +7,7 @@ require (
 	github.com/go-sql-driver/mysql v1.9.3
 	github.com/huandu/go-sqlbuilder v1.36.1
 	github.com/spf13/viper v1.20.1
+	google.golang.org/protobuf v1.36.1
 )
 
 require (
