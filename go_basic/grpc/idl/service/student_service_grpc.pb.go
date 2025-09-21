@@ -8,10 +8,11 @@ package grpc_service
 
 import (
 	context "context"
+	"go_tutorial/go_basic/grpc/server"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
-	model "idl/model"
+	model "go_tutorial/go_basic/grpc/idl/model"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -163,7 +164,7 @@ type UnsafeStudentServer interface {
 	mustEmbedUnimplementedStudentServer()
 }
 
-func RegisterStudentServer(s grpc.ServiceRegistrar, srv StudentServer) {
+func RegisterStudentServer(s grpc.ServiceRegistrar, srv main.Student) {
 	// If the following call pancis, it indicates UnimplementedStudentServer was
 	// embedded by pointer and is nil.  This will cause panics if an
 	// unimplemented method is ever invoked, so we test this at initialization
