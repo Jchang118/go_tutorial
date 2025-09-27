@@ -1,0 +1,4 @@
+{"age":18,"file":"/Users/liangchengchang/2025/go_tutorial/go_frame/io/logrus_test.go:14","func":"go_tutorial/go_frame/io_test.TestLogrus","level":"info","msg":"this is info log","name":"dqq","time":"2025-09-27 21:53:59.101"}
+{"age":18,"file":"/Users/liangchengchang/2025/go_tutorial/go_frame/io/logrus_test.go:15","func":"go_tutorial/go_frame/io_test.TestLogrus","level":"warning","msg":"this is warn log, float=3.140","name":"dqq","time":"2025-09-27 21:53:59.103"}
+{"app":"dqq","file":"/Users/liangchengchang/2025/go_tutorial/go_frame/io/logrus_test.go:16","func":"go_tutorial/go_frame/io_test.TestLogrus","level":"error","msg":"this is error log1this is error log2","time":"2025-09-27 21:53:59.103"}
+{"app":"dqq","file":"/Users/liangchengchang/2025/go_tutorial/go_frame/io/logrus_test.go:23","func":"go_tutorial/go_frame/io_test.TestLogrus","level":"panic","msg":"this is panic log","time":"2025-09-27 21:53:59.103"}
