@@ -1,0 +1,9 @@
+2025-09-29 23:58:18.887	INFO	io/zap_test.go:14	hello	{"dqq": {"biz": "search", "age": 18}}
+2025-09-29 23:58:18.888	ERROR	io/zap_test.go:15	hello	{"dqq": {"biz": "search", "china": {"age": 18}}}
+go_tutorial/go_frame/io_test.TestZap1
+	/Users/liangchengchang/2025/go_tutorial/go_frame/io/zap_test.go:15
+testing.tRunner
+	/opt/homebrew/Cellar/go/1.24.5/libexec/src/testing/testing.go:1792
+2025-09-29 23:58:18.888	INFO	io/zap_test.go:18	pi is 3.140000	{"dqq": {"biz": "search"}}
+INFO	hello	{"biz": "search", "dqq": {"group": "game", "age": 18}}
+ERROR	hello	{"biz": "search", "dqq": {"group": "game", "china": {"age": 18}}}
