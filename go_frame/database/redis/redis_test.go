@@ -48,6 +48,26 @@ func TestDelete(t *testing.T) {
 	distributed.DeleteKey(context.Background(), client)
 }
 
+func TestListValue(t *testing.T) {
+	distributed.ListValue(context.Background(), client)
+}
+
+func TestSetValue(t *testing.T) {
+	distributed.SetValue(context.Background(), client)
+}
+
+func TestZSetValue(t *testing.T) {
+	distributed.ZsetValue(context.Background(), client)
+}
+
+func TestHashTableValue(t *testing.T) {
+	distributed.HashtableValue(context.Background(), client)
+}
+
 // go test -v ./database/redis -run=^TestStringValue$ -count=1
 // go test -v ./database/redis -run=^TestStructValue$ -count=1
 // go test -v ./database/redis -run=^TestDelete$ -count=1
+// go test -v ./database/redis -run=^TestListValue$ -count=1
+// go test -v ./database/redis -run=^TestSetValue$ -count=1
+// go test -v ./database/redis -run=^TestZSetValue$ -count=1
+// go test -v ./database/redis -run=^TestHashTableValue$ -count=1
