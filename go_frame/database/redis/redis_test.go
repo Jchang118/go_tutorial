@@ -64,6 +64,10 @@ func TestHashTableValue(t *testing.T) {
 	distributed.HashtableValue(context.Background(), client)
 }
 
+func TestScan(t *testing.T) {
+	distributed.Scan(context.Background(), client)
+}
+
 // go test -v ./database/redis -run=^TestStringValue$ -count=1
 // go test -v ./database/redis -run=^TestStructValue$ -count=1
 // go test -v ./database/redis -run=^TestDelete$ -count=1
@@ -71,3 +75,4 @@ func TestHashTableValue(t *testing.T) {
 // go test -v ./database/redis -run=^TestSetValue$ -count=1
 // go test -v ./database/redis -run=^TestZSetValue$ -count=1
 // go test -v ./database/redis -run=^TestHashTableValue$ -count=1
+// go test -v ./database/redis -run=^TestScan$ -count=1
